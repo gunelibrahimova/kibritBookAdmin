@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
 import { BASE_URL } from '../../api/config';
-import './Language.scss';
 
-const CreateLanguage = () => {
+const CreatePublisher = () => {
   const [Name, setName] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [photoURL, setPhoto] = useState("");
+  const [publishDate,setPublishDate] = useState("");
   const navigate = useNavigate();
 
   const postData = async () => {
-    fetch(`${BASE_URL}language/add`, {
+    fetch(`${BASE_URL}publisher/add`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -18,12 +18,13 @@ const CreateLanguage = () => {
       },
       body: JSON.stringify({
         name: Name,
-        photo: photo
+        photoURL: photoURL,
+        publishDate: publishDate
       }),
     })
       .then((res) => res.json())
       .then((res) => {
-        navigate("/language");
+        navigate('/publisher')
       });
   };
 
@@ -40,11 +41,15 @@ const CreateLanguage = () => {
           onChange={(e) => setPhoto(e.target.value)}
         />
       </Form.Field>
+      <Form.Field>
+        <label>publishDate</label>
+        <input placeholder="publishDate" type="datetime-local" onChange={(e) => setPublishDate(e.target.value)}/>
+      </Form.Field>
       <button className='btn btn-outline-success my-2' type="submit" onClick={postData}>
-        <Link to='/language'>Submit</Link>
+        <Link to={'/publisher'}>Submit</Link>
       </button>
     </Form>
   )
 }
 
-export default CreateLanguage
+export default CreatePublisher

@@ -2,15 +2,14 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
 import { BASE_URL } from '../../api/config';
-import './Language.scss';
 
-const CreateLanguage = () => {
+const CreateGenre = () => {
   const [Name, setName] = useState("");
   const [photo, setPhoto] = useState("");
   const navigate = useNavigate();
 
   const postData = async () => {
-    fetch(`${BASE_URL}language/add`, {
+    fetch(`${BASE_URL}genre/add`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -23,10 +22,10 @@ const CreateLanguage = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        navigate("/language");
+        navigate("/genre");
       });
   };
-
+  
   return (
     <Form className="create-form">
       <Form.Field>
@@ -41,10 +40,10 @@ const CreateLanguage = () => {
         />
       </Form.Field>
       <button className='btn btn-outline-success my-2' type="submit" onClick={postData}>
-        <Link to='/language'>Submit</Link>
+        <Link to={'/genre'}>Submit</Link>
       </button>
     </Form>
   )
 }
 
-export default CreateLanguage
+export default CreateGenre

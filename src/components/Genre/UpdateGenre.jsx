@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
 import { BASE_URL } from '../../api/config';
 
-const UpdateLanguage = () => {
+const UpdateGenre = () => {
   const [Name, setName] = useState("");
   const [photo, setPhoto] = useState("");
   const [id, setID] = useState(null);
   const navigate = useNavigate();
 
   const updateAPIData = async () => {
-    fetch(`${BASE_URL}language/update/${id}`, {
+    fetch(`${BASE_URL}genre/update/${id}`, {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -25,7 +24,7 @@ const UpdateLanguage = () => {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        navigate("/language");
+        navigate("/genre");
       });
   }
 
@@ -57,4 +56,4 @@ const UpdateLanguage = () => {
   )
 }
 
-export default UpdateLanguage
+export default UpdateGenre

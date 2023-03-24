@@ -3,31 +3,30 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 import { BASE_URL } from '../../api/config';
-import '../Language/Language.scss';
 
-const Language = () => {
+const Publisher = () => {
   const [Name, setName] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [photoURL, setPhoto] = useState("");
+  const [publishDate,setPublishDate] = useState("");
   const [APIData, setAPIData] = useState([]);
   const navigate = useNavigate();
 
-
-  const getLanguage = async () => {
-    axios.get(BASE_URL + "language/getall").then((response) => {
+  const getPublisher = async () => {
+    axios.get(BASE_URL + "publisher/getall").then((response) => {
       setAPIData(response.data);
     });
   };
 
   const setData = (data) => {
-    let { id, name, photo } = data;
+    let { id, name, photoURL, publishDate} = data;
     localStorage.setItem("ID", id);
     localStorage.setItem("Name", name);
-    localStorage.setItem("Photo", photo);
+    localStorage.setItem("PhotoURL", photoURL);
+    localStorage.setItem("PublishDate",publishDate);
   };
 
-
   const onDelete = (id) => {
-    fetch(`${BASE_URL}language/remove/${id}`, {
+    fetch(`${BASE_URL}publisher/remove/${id}`, {
       method: "DELETE",
       mode: "cors",
       headers: {
@@ -35,22 +34,23 @@ const Language = () => {
       },
       body: JSON.stringify({
         name: Name,
-        photo: photo
+        photoURL: photoURL,
+        publishDate : publishDate
       }),
     })
       .then((res) => res.json())
       .then((res) => {
-        navigate('/language')
+        navigate('/publisher')
       });
   };
 
   useEffect(() => {
-    getLanguage();
+    getPublisher();
   }, [onDelete]);
 
   return (
-    <div id="language" className="my-5">
-      <Link to="/language/create">
+    <div id="publisher" className="my-5">
+      <Link to="/publisher/create">
         <button className="btn btn-outline-success">Create</button>
       </Link>
       <Table singleLine className="my-4">
@@ -58,6 +58,7 @@ const Language = () => {
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Photo</Table.HeaderCell>
+            <Table.HeaderCell>PublishDate</Table.HeaderCell>
             <Table.HeaderCell>Update</Table.HeaderCell>
             <Table.HeaderCell>Delete</Table.HeaderCell>
           </Table.Row>
@@ -70,9 +71,10 @@ const Language = () => {
                 <Table.Row>
                   <Table.Cell>{data.name}</Table.Cell>
                   <Table.Cell>
-                    <img width="50px" src={data.photo} alt="" />
+                    <img width="50px" src={data.photoURL} alt="" />
                   </Table.Cell>
-                  <Link to={`/language/update/${data.id}`}>
+                  <Table.Cell>{data.publishDate}</Table.Cell>
+                  <Link to={`/publisher/update/${data.id}`}>
                     <Table.Cell>
                       <button
                         className="btn btn-outline-warning my-2"
@@ -99,4 +101,4 @@ const Language = () => {
   )
 }
 
-export default Language;
+export default Publisher

@@ -3,17 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 import { BASE_URL } from '../../api/config';
-import '../Language/Language.scss';
 
-const Language = () => {
+const Genre = () => {
   const [Name, setName] = useState("");
   const [photo, setPhoto] = useState("");
   const [APIData, setAPIData] = useState([]);
   const navigate = useNavigate();
 
 
-  const getLanguage = async () => {
-    axios.get(BASE_URL + "language/getall").then((response) => {
+  const getGenre = async () => {
+    axios.get(BASE_URL + "genre/getall").then((response) => {
       setAPIData(response.data);
     });
   };
@@ -27,7 +26,7 @@ const Language = () => {
 
 
   const onDelete = (id) => {
-    fetch(`${BASE_URL}language/remove/${id}`, {
+    fetch(`${BASE_URL}genre/remove/${id}`, {
       method: "DELETE",
       mode: "cors",
       headers: {
@@ -40,17 +39,17 @@ const Language = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        navigate('/language')
+        navigate('/genre')
       });
   };
 
   useEffect(() => {
-    getLanguage();
+    getGenre();
   }, [onDelete]);
 
   return (
-    <div id="language" className="my-5">
-      <Link to="/language/create">
+    <div id="genre" className="my-5">
+      <Link to="/genre/create">
         <button className="btn btn-outline-success">Create</button>
       </Link>
       <Table singleLine className="my-4">
@@ -72,7 +71,7 @@ const Language = () => {
                   <Table.Cell>
                     <img width="50px" src={data.photo} alt="" />
                   </Table.Cell>
-                  <Link to={`/language/update/${data.id}`}>
+                  <Link to={`/genre/update/${data.id}`}>
                     <Table.Cell>
                       <button
                         className="btn btn-outline-warning my-2"
@@ -99,4 +98,4 @@ const Language = () => {
   )
 }
 
-export default Language;
+export default Genre

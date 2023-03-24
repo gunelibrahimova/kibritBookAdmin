@@ -3,31 +3,32 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 import { BASE_URL } from '../../api/config';
-import '../Language/Language.scss';
+import './author.scss';
 
-const Language = () => {
+const Author = () => {
   const [Name, setName] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [description,setDescription] = useState("");
+  const [photoURL, setPhoto] = useState("");
   const [APIData, setAPIData] = useState([]);
   const navigate = useNavigate();
 
-
-  const getLanguage = async () => {
-    axios.get(BASE_URL + "language/getall").then((response) => {
+  const getAuthor = async () => {
+    axios.get(BASE_URL + "author/getall").then((response) => {
       setAPIData(response.data);
     });
   };
 
   const setData = (data) => {
-    let { id, name, photo } = data;
+    let { id, name, photoURL,description } = data;
     localStorage.setItem("ID", id);
     localStorage.setItem("Name", name);
-    localStorage.setItem("Photo", photo);
+    localStorage.setItem("PhotoURL", photoURL);
+    localStorage.setItem("Description",description);
   };
 
 
   const onDelete = (id) => {
-    fetch(`${BASE_URL}language/remove/${id}`, {
+    fetch(`${BASE_URL}author/remove/${id}`, {
       method: "DELETE",
       mode: "cors",
       headers: {
@@ -35,22 +36,23 @@ const Language = () => {
       },
       body: JSON.stringify({
         name: Name,
-        photo: photo
+        photoURL: photoURL,
+        description: description
       }),
     })
       .then((res) => res.json())
       .then((res) => {
-        navigate('/language')
+        navigate('/author')
       });
   };
 
   useEffect(() => {
-    getLanguage();
+    getAuthor();
   }, [onDelete]);
 
   return (
-    <div id="language" className="my-5">
-      <Link to="/language/create">
+    <div id="author" className="my-5">
+      <Link to="/author/create">
         <button className="btn btn-outline-success">Create</button>
       </Link>
       <Table singleLine className="my-4">
@@ -58,6 +60,7 @@ const Language = () => {
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Photo</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
             <Table.HeaderCell>Update</Table.HeaderCell>
             <Table.HeaderCell>Delete</Table.HeaderCell>
           </Table.Row>
@@ -70,9 +73,10 @@ const Language = () => {
                 <Table.Row>
                   <Table.Cell>{data.name}</Table.Cell>
                   <Table.Cell>
-                    <img width="50px" src={data.photo} alt="" />
+                    <img width="50px" src={data.photoURL} alt="" />
                   </Table.Cell>
-                  <Link to={`/language/update/${data.id}`}>
+                  <Table.Cell>{data.description}</Table.Cell>
+                  <Link to={`/author/update/${data.id}`}>
                     <Table.Cell>
                       <button
                         className="btn btn-outline-warning my-2"
@@ -99,4 +103,4 @@ const Language = () => {
   )
 }
 
-export default Language;
+export default Author
