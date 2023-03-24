@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import './sideBar.scss';
 
 const SideBar = () => {
 
@@ -17,6 +18,12 @@ const SideBar = () => {
         </li>
         <li className="publisher">
           <Link to='/publisher'>Publisher</Link>
+        </li>
+        <li className="slider">
+          <Link to='/slider'>Slider</Link>
+        </li>
+        <li className="book">
+          <Link to='/book'>Book</Link>
         </li>
       </ul>
     </div>
