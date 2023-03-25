@@ -2,12 +2,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
-import { BASE_URL } from '../../api/config';
+import { BASE_URL, FILE_PATH } from '../../api/config';
 import './author.scss';
 
 const Author = () => {
   const [Name, setName] = useState("");
-  const [description,setDescription] = useState("");
+  const [description, setDescription] = useState("");
   const [photoURL, setPhoto] = useState("");
   const [APIData, setAPIData] = useState([]);
   const navigate = useNavigate();
@@ -19,12 +19,14 @@ const Author = () => {
   };
 
   const setData = (data) => {
-    let { id, name, photoURL,description } = data;
+    let { id, name, photoURL, description } = data;
     localStorage.setItem("ID", id);
     localStorage.setItem("Name", name);
     localStorage.setItem("PhotoURL", photoURL);
-    localStorage.setItem("Description",description);
+    localStorage.setItem("Description", description);
   };
+
+  // console.log(photoURL);
 
 
   const onDelete = (id) => {
@@ -46,9 +48,12 @@ const Author = () => {
       });
   };
 
-  useEffect(() => {
-    getAuthor();
-  }, [onDelete]);
+  // useEffect(() => {
+  getAuthor();
+  // }, []);
+
+
+  // console.log(APIData);
 
   return (
     <div id="author" className="my-5">
@@ -73,19 +78,19 @@ const Author = () => {
                 <Table.Row>
                   <Table.Cell>{data.name}</Table.Cell>
                   <Table.Cell>
-                    <img width="50px" src={data.photoURL} alt="" />
+                    <img width="50px" src={`${FILE_PATH}${data.photoURL}`} alt="" />
                   </Table.Cell>
                   <Table.Cell>{data.description}</Table.Cell>
-                  <Link to={`/author/update/${data.id}`}>
-                    <Table.Cell>
+                  <Table.Cell>
+                    <Link to={`/author/update/${data.id}`}>
                       <button
                         className="btn btn-outline-warning my-2"
                         onClick={() => setData(data)}
                       >
                         Update
                       </button>
-                    </Table.Cell>
-                  </Link>
+                    </Link>
+                  </Table.Cell>
                   <Table.Cell>
                     <button
                       className="btn btn-outline-danger"

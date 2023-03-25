@@ -49,7 +49,7 @@ const Publisher = () => {
   }, [onDelete]);
 
   return (
-    <div id="publisher" className="my-5">
+    <div id="book" className="my-5">
       <Link to="/publisher/create">
         <button className="btn btn-outline-success">Create</button>
       </Link>
