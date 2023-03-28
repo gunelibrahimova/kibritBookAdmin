@@ -42,7 +42,6 @@ const UpdateAuthor = () => {
     }
   }
 
-
   useEffect(() => {
     setID(localStorage.getItem('ID'))
     setName(localStorage.getItem('Name'));
@@ -54,7 +53,6 @@ const UpdateAuthor = () => {
     <div>
       <Form id="create-form">
         <TextField value={Name} fullWidth id="outlined-basic" label="Name" className='mb-4' variant="outlined" onChange={(e) => setName(e.target.value)} />
-
         <Form.Field>
           <div className='fileUpload'>
             <input
@@ -70,13 +68,11 @@ const UpdateAuthor = () => {
               <span>Upload file</span></label>
           </div>
           <div>
-            {photoURL && <img src={`${FILE_PATH}${photoURL}`} width="400px" className='mt-3' alt="preview" />} {/* show the selected image preview */}
-
+            {photoURL && <img src={`${FILE_PATH}${photoURL}`} width="400px" className='mt-3' alt="preview" />}
           </div>
         </Form.Field>
         <Form.Field>
           <TextField fullWidth value={description} id="outlined-basic" label="Description" className='mb-4 mt-4' variant="outlined" onChange={(e) => setDescription(e.target.value)} />
-
         </Form.Field>
         <button type="submit" className='btn btn-outline-warning my-2' onClick={updateAPIData}>Update</button>
       </Form>

@@ -4,6 +4,7 @@ import Author from '../components/Author/Author'
 import CreateAuthor from '../components/Author/CreateAuthor'
 import UpdateAuthor from '../components/Author/UpdateAuthor'
 import Book from '../components/Book/Book'
+import CreateBook from '../components/Book/CreateBook'
 import CreateGenre from '../components/Genre/CreateGenre'
 import Genre from '../components/Genre/Genre'
 import UpdateGenre from '../components/Genre/UpdateGenre'
@@ -36,6 +37,8 @@ const MyRouter = () => {
       <Route path='/slider/create' element={<CreateSlider />}/>
       <Route path='/slider/update/:id' element={<UpdateSlider />}/>
       <Route path='/book' element={<Book />}/>
+      <Route path='/book/create' element={<CreateBook />}/>
+
     </Routes>
   )
 }

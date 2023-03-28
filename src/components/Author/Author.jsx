@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 import { BASE_URL, FILE_PATH } from '../../api/config';
@@ -26,9 +26,6 @@ const Author = () => {
     localStorage.setItem("Description", description);
   };
 
-  // console.log(photoURL);
-
-
   const onDelete = (id) => {
     fetch(`${BASE_URL}author/remove/${id}`, {
       method: "DELETE",
@@ -48,12 +45,7 @@ const Author = () => {
       });
   };
 
-  // useEffect(() => {
   getAuthor();
-  // }, []);
-
-
-  // console.log(APIData);
 
   return (
     <div id="author" className="my-5">
