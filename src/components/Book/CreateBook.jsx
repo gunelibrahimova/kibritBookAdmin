@@ -1,6 +1,5 @@
-import { FormLabel, Switch, TextField, MenuItem } from '@mui/material'
+import { Button, FormLabel, Switch, TextField, MenuItem } from '@mui/material'
 import axios from 'axios'
-import { Button } from 'bootstrap'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BASE_URL, FILE_PATH } from '../../api/config'
@@ -9,7 +8,7 @@ const CreateBook = () => {
   const [Name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [price, setPrice] = useState("")
-  const [coverPhoto, setCoverPhoto] = useState("");
+  const [coverPhoto, setCoverPhoto] = useState();
   const [productPicture, setProductPicture] = useState([]);
   const [salePrice, setSalePrice] = useState("");
   const [isStock, setIsStock] = useState(false);
@@ -19,10 +18,10 @@ const CreateBook = () => {
   const [bookCover, setBookCover] = useState("");
   const [paperType, setPaperType] = useState("");
   const [size, setSize] = useState("");
-  const [author, setAuthor] = useState("");
-  const [publisher, setPublisher] = useState("")
-  const [genre, setGenre] = useState("")
-  const [language, setLanguage] = useState("")
+  const [author, setAuthor] = useState();
+  const [publisher, setPublisher] = useState()
+  const [genre, setGenre] = useState()
+  const [language, setLanguage] = useState()
   const [APIData, setAPIData] = useState([]);
   const [APIData2, setAPIData2] = useState([]);
   const [APIData3, setAPIData3] = useState([]);
@@ -55,37 +54,80 @@ const CreateBook = () => {
   };
 
 
+  // const createBook = async () => {
+  //   try {
+  //     const res = await fetch(`${BASE_URL}Book/add`, {
+  //       method: "POST",
+  //       mode: 'cors',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         name: Name,
+  //         price: price,
+  //         salePrice: salePrice,
+  //         isStock: isStock,
+  //         isTranslate: isTranslate,
+  //         description: description,
+  //         translator: translator,
+  //         bookCover: bookCover,
+  //         authorId: author,
+  //         publisherId: publisher,
+  //         genreId: genre,
+  //         languageId: language,
+  //         paperType: paperType,
+  //         size: size,
+  //         coverPhoto: coverPhoto,
+  //         isSale: isSale,
+  //         productPicture: productPicture
+  //       })
+  //     });
+
+  //     const data = await res.json();
+  //     console.log(data);
+  //     navigate("/book");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const formData = new FormData();
+
+  formData.append('name', Name);
+  formData.append('price', price);
+  formData.append('salePrice', salePrice);
+  formData.append('isStock', isStock);
+  formData.append('isTranslate', isTranslate);
+  formData.append('description', description);
+  formData.append('translator', translator);
+  formData.append('bookCover', bookCover);
+  formData.append('authorId', author);
+  formData.append('publisherId', publisher);
+  formData.append('genreId', genre);
+  formData.append('languageId', language);
+  formData.append('paperType', paperType);
+  formData.append('size', size);
+  formData.append('coverPhoto', coverPhoto);
+  formData.append('isSale', isSale);
+  formData.append('productPicture', productPicture);
+
   const createBook = async () => {
-    fetch(`${BASE_URL}Book/add`, {
-      method: "POST",
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: Name,
-        price: price,
-        salePrice: salePrice,
-        isStock: isStock,
-        isTranslate: isTranslate,
-        description: description,
-        translator: translator,
-        bookCover: bookCover,
-        authorId: author,
-        publisherId: publisher,
-        genreId: genre,
-        languageId: language,
-        paperType: paperType,
-        size: size,
-        coverPhoto: coverPhoto,
-        isSale: isSale,
-        productPicture: productPicture
-      })
-    }).then(res => res.json()).then(res => {
-      console.log(res)
-      navigate("/book")
-    })
-  }
+    try {
+      const response = await fetch(`${BASE_URL}Book/add`, {
+        method: 'POST',
+        mode: 'cors',
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log(data);
+      navigate('/book');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
   const fileUploadHandler = async (event) => {
     const formData = new FormData();
@@ -115,7 +157,6 @@ const CreateBook = () => {
     setProductPicture(myImageList);
   }
 
-  console.log(isStock);
 
   useEffect(() => {
     getAuthor();
@@ -146,8 +187,9 @@ const CreateBook = () => {
               <TextField fullWidth id="outlined-basic" onChange={(e) => setSize(e.target.value)} label="Size" variant="outlined" />
             </div>
             <div className="col-lg-4 my-2">
-              <TextField fullWidth id="outlined-basic" onChange={(e) => setPrice(e.target.value)} label="Price    ₼" variant="outlined" />
+              <TextField fullWidth id="outlined-basic" onChange={(e) => setPrice(e)} label="Price" variant="outlined" />
             </div>
+
             <div className="col-lg-4 my-2">
               <TextField fullWidth id="outlined-basic" onChange={(e) => setSalePrice(e.target.value)} label="SalePrice    ₼" variant="outlined" />
             </div>
@@ -233,7 +275,8 @@ const CreateBook = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            {/* <div className="col-lg-12 my-2">
+            <div className="col-lg-12 my-2">
+              <h6>Upload main </h6>
               <Button
                 fullWidth
                 variant="contained"
@@ -254,47 +297,41 @@ const CreateBook = () => {
                   </div>
                 </div>
               </div>
-            </div>  */}
-            {/* <div className="col-lg-6 my-2">
-              <Button
-                variant="contained"
-                component="label"
-                color='success'
-                onClick={() => createProduct()}
-              >
-                Create
-              </Button>
-            </div> */}
-            {/* </div>
-        </div> */}
+            </div>
+
             <div className="col-lg-4">
               <div className="row">
-                {/* <div className="col-lg-12">
+                <div className="col-lg-12">
+                  <h6>Upload multiple photo</h6>
 
-              <div className="row">
-                {
-                  productPicture &&
-                  productPicture.map((picture) => (
-                    <div className="col-lg-3">
-                      <img className='img-fluid' src={`${FILE_PATH}${picture.photoUrl}`} alt="" />
-                    </div>
-                  ))
-                }
-              </div>
-              <Button
-                fullWidth
-                variant="contained"
-                component="label"
-              >
-                Upload File
-                <input
-                  type="file"
-                  hidden
-                  multiple
-                  onChange={multiplePicture}
-                />
-              </Button>
-            </div> */}
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    component="label"
+                    className='mb-2'
+                  >
+                    Upload File
+                    <input
+                      type="file"
+                      hidden
+                      multiple
+                      onChange={multiplePicture}
+                    />
+                  </Button>
+
+
+                  <div className="row">
+                    {
+                      productPicture &&
+                      productPicture.map((picture) => (
+                        <div className="col-lg-4">
+                          <img className='img-fluid' src={`${FILE_PATH}${picture.photoUrl}`} alt="" />
+                        </div>
+                      ))
+                    }
+                  </div>
+
+                </div>
 
 
               </div>
@@ -319,6 +356,17 @@ const CreateBook = () => {
               </FormLabel>
             </div>
           </div>
+        </div>
+
+        <div className="col-lg-6 my-2">
+          <Button
+            variant="contained"
+            component="label"
+            color='success'
+            onClick={() => createBook()}
+          >
+            Create
+          </Button>
         </div>
       </div>
     </div>
