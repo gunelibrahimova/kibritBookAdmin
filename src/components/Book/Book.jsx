@@ -1,19 +1,15 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL, FILE_PATH } from '../../api/config';
-import { getBookAction } from '../../redux/Actions/BookActions';
 
 const Book = () => {
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
   const [Name, setName] = useState("")
-  const [description, setDescription] = useState("")
-  const [price, setPrice] = useState("")
-  const [coverPhoto, setCoverPhoto] = useState("");
-  const [productPicture, setProductPicture] = useState([]);
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
   const [salePrice, setSalePrice] = useState("");
+  const [quantity, setQuantity] = useState(0);
   const [isStock, setIsStock] = useState(false);
   const [isTranslate, setIsTranslate] = useState(false);
   const [isSale, setIsSale] = useState(false);
@@ -21,16 +17,43 @@ const Book = () => {
   const [bookCover, setBookCover] = useState("");
   const [paperType, setPaperType] = useState("");
   const [size, setSize] = useState("");
-  const [author, setAuthor] = useState("");
-  const [publisher, setPublisher] = useState("")
-  const [genre, setGenre] = useState("")
-  const [quantity, setQuantity] = useState(0);
-  const [language, setLanguage] = useState("")
+  const [bookPictures, setBookPictures] = useState([]);
+  // const [author, setAuthor] = useState("");
+  // const [publisher, setPublisher] = useState("")
+  // const [genre, setGenre] = useState("")
+  // const [language, setLanguage] = useState("")
   const [APIData, setAPIData] = useState([]);
+
+  const getBooks = async () => {
+    axios.get(BASE_URL + "Book/bookList").then((response) => {
+      setAPIData(response.data.message);
+    });
+  };
+
+  const setData = (data) => {
+    let { id, name, description, price,salePrice,isStock,isTranslate,isSale,translator,bookCover,paperType, size, author, publisher, genre, language,bookPictures } = data;
+    localStorage.setItem("ID", id);
+    localStorage.setItem("Name", name);
+    localStorage.setItem("Description", description);
+    localStorage.setItem("Price", price);
+    localStorage.setItem("SalePrice", salePrice);
+    localStorage.setItem("IsStock", isStock);
+    localStorage.setItem("IsTranslate", isTranslate);
+    localStorage.setItem("IsSale", isSale);
+    localStorage.setItem("Translator", translator);
+    localStorage.setItem("BookCover", bookCover);
+    localStorage.setItem("PaperType", paperType);
+    localStorage.setItem("Size", size);
+    localStorage.setItem("Author", author);
+    localStorage.setItem("Publisher", publisher);
+    localStorage.setItem("Genre", genre);
+    localStorage.setItem("Language", language);
+    localStorage.setItem("BookPictures", bookPictures);
+  };
 
 
   const onDelete = (id) => {
-    fetch(`${BASE_URL}product/removeproduct/${id}`, {
+    fetch(`${BASE_URL}book/removebook/${id}`, {
       method: "DELETE",
       mode: "cors",
       headers: {
@@ -38,19 +61,18 @@ const Book = () => {
       },
       body: JSON.stringify({
         name: Name,
-        salePrice : salePrice,
-        price: price,
         description: description,
-        coverPhoto: coverPhoto,
-        isSale : isSale,
+        price: price,
+        salePrice : salePrice,
+        quantity : quantity,
         isStock : isStock,
         isTranslate : isTranslate,
-        productPicture: productPicture,
-        quantity : quantity,
-        size : size,
-        paperType : paperType,
+        isSale : isSale,
+        translator: translator,
         bookCover: bookCover,
-        // translator: translator,
+        paperType : paperType,
+        size : size,
+        bookPictures: bookPictures,
         // author : author, 
         // publisher: publisher,
         // genre: genre,
@@ -65,18 +87,8 @@ const Book = () => {
       });
   };
 
-  const getBooks = async () => {
-    axios.get(BASE_URL + "Book/bookList").then((response) => {
-      setAPIData(response.data.message);
-    });
-  };
-
-  console.log(APIData);
-  useEffect(() => {
-    getBooks()
-  }, [])
-
-
+  getBooks();
+  
 
   return (
     <div><div className='container'>
@@ -94,7 +106,7 @@ const Book = () => {
             <div key={product.id} className="col-lg-3 my-2">
               <div className="card">
                 <div className="card-body text-center">
-                  <img className='img-fluid' style={{ height: 200 }} src={`${FILE_PATH}${product.coverPhoto}`} alt="" />
+                  <img className='img-fluid' style={{ height: 200 }} src={`${FILE_PATH}${product.bookCover}`} alt="" />
                   <h5>{product.name}</h5>
                 </div>
                 <div className="card-footer">
@@ -104,7 +116,7 @@ const Book = () => {
                     </div>
                     <div className="col-lg-6">
                       <Link to={`/book/update/${product.id}`}>
-                        <button className='btn btn-outline-warning w-100'>Edit</button>
+                        <button className='btn btn-outline-warning w-100' onClick={() => setData(product)}>Edit</button>
                       </Link>
                     </div>
                   </div>

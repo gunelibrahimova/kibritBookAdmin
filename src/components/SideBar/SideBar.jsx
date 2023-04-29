@@ -28,10 +28,12 @@ const SideBar = () => {
         <li className="publisher">
           <Link to='/publisher'>Publisher</Link>
         </li>
+        <li className="publisher">
+          <Link to='/publisherofweek'>PublisherOfWeek</Link>
+        </li>
         <li className="slider">
           <Link to='/slider'>Slider</Link>
         </li>
-
       </ul>
     </div>
   );

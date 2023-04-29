@@ -1,4 +1,3 @@
-// import { BASE_URL } from "../../api/Config";
 import { CREATE_BOOK, GET_BOOK } from "../Constats/BookConstants";
 import {BASE_URL} from "../../api/config"
 
@@ -10,7 +9,7 @@ export const getBookAction  = () => async (dispatch,getState) =>{
     })
 }
 
-export const createBookAction = (Name,price,isStock,isSale,isTranslate,description,translator,bookCover,paperType, size, author, publisher, genre, language, coverPhoto ,salePrice, productPicture) => async (dispatch, getState) =>{
+export const createBookAction = (Name,description,price,salePrice,isStock,isTranslate,isSale,translator,bookCover,paperType, size, author, publisher, genre, language,bookPictures) => async (dispatch, getState) =>{
     let newProduct = await fetch(`${BASE_URL}Book/add`,{
         method: "post",
         headers: {
@@ -18,22 +17,21 @@ export const createBookAction = (Name,price,isStock,isSale,isTranslate,descripti
         },
         body: JSON.stringify({
             name: Name,
+            description:description,
             price: price,
             salePrice : salePrice,
             isStock: isStock,
             isTranslate: isTranslate,
-            description:description,
+            isSale: isSale,
             translator:translator,
             bookCover:bookCover,
-            authorId:author,
-            publisherId:publisher,
-            genreId:genre,
-            languageId : language,
             paperType : paperType,
             size : size,
-            coverPhoto: coverPhoto,
-            isSale: isSale,
-            productPicture: [{
+            author :author,
+            publisher :publisher,
+            genre :genre,
+            language : language,
+            bookPictures : [{
                 photoUrl: "ajdahdkashdkl"
             }]
         })
